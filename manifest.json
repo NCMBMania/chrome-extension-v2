@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "NCMB管理画面用",
+  "version": "0.0.1",
+  "description": "a extention for NCMB",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+        "matches": [ "https://console.mbaas.nifcloud.com/*"],
+        "js": [ "jquery-3.4.1.min.js", "FileSaver.min.js", "script.js" ],
+        "run_at": "document_end"
+    }
+  ]
+}
