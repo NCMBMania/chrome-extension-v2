@@ -23,11 +23,17 @@ const main = () => {
       return true;
     }
     clearInterval(jsInitCheckTimer);
-    $('.left-item').append('<li class="item download"><button class="btn">↓ダウンロード</button></li>');
-    $('.download').on('click', function(e) {
-      e.preventDefault();
-      download();
-    })
+    setInterval(() => {
+      if ($('a.stay').text().trim() === 'データストア') {
+        if ($('.download').length === 0) {
+          $('.left-item').append('<li class="item download"><button class="btn">↓ダウンロード</button></li>');
+          $('.download').on('click', function(e) {
+            e.preventDefault();
+            download();
+          })
+        }
+      }
+    }, 2000)
   }
 }
 
