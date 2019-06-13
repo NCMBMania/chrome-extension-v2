@@ -24,12 +24,17 @@ const main = () => {
     }
     clearInterval(jsInitCheckTimer);
     setInterval(() => {
-      if ($('a.stay').text().trim() === 'データストア') {
+      if ($($('a.stay')[0]).text().trim() === 'データストア') {
         if ($('.download').length === 0) {
           $('.left-item').append('<li class="item download"><button class="btn">↓ダウンロード</button></li>');
+          $('.left-item').append('<li class="item clear"><button class="btn">×値を消す</button></li>');
           $('.download').on('click', function(e) {
             e.preventDefault();
             download();
+          });
+          // datastore-cols ng-scope 
+          $(document).on('keyup', '.datastore-cols-hilight', e => {
+            console.log(e);
           })
         }
       }
