@@ -19,7 +19,9 @@ const session = JSON.parse(getCookie("session")).sessionToken;
 const main = () => {
   const jsInitCheckTimer = setInterval(jsLoaded, 1000);
   function jsLoaded() {
-    if (document.querySelector('.left-item') == null) {
+    if (document.querySelector('.left-item') == null &&
+      document.querySelector('.sub-navigation .title') == null
+    ) {
       return true;
     }
     clearInterval(jsInitCheckTimer);
@@ -38,12 +40,50 @@ const main = () => {
           })
         }
       }
+      if ($($('a.stay')[0]).text().trim() === 'ファイルストア') {
+        if ($('.download').length === 0) {
+          $('button.green').before('<button class="btn blue download"><span class="icon left download"></span>ダウンロード</button>');
+          $('button.download').on('click', function(e) {
+            e.preventDefault();
+            fileDownload();
+          });
+        }
+      }
     }, 2000)
   }
 }
 
+const application = location.href.replace(/.*applications\/(.*?)\/.*/g, "$1");
+
+const fileDownload = () => {
+  var count = $(".filestore-list-name").length;
+  new Promise(function(res, rej) {
+    function loop(i) {
+      var filename = $($(".filestore-list-name")[i]).find("span:first").text();
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://console.mbaas.nifcloud.com/api/download/file', true);
+      xhr.responseType = 'blob';
+      xhr.onload = function(e) {
+        // Blobで返ってくる
+        saveAs(this.response, filename);
+        if (i < count) {
+          loop(i + 1)
+        }
+      };
+      var data = new FormData();
+      data.append('applicationId', application);
+      data.append('encFileName', filename);
+      data.append('sessionToken', session);
+      xhr.send(data);
+    }
+    loop(0);
+  })
+  .then(function() {
+    console.log(zip);
+  })
+}
+
 const download = () => {
-  var application = location.href.replace(/.*applications\/(.*?)\/.*/g, "$1");
   var classname = $("li.item-class-name").text().replace(/ |\r|\n/g, '');
   if (!classname && $('.account .title strong').text() === 'ロール') {
     classname = 'user';
