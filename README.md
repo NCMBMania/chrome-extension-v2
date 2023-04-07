@@ -4,6 +4,8 @@
 
 [mBaaSでサーバー開発不要！ | ニフクラ mobile backend](https://mbaas.nifcloud.com/)
 
+こちらはChrome機能拡張マニフェスト2用です。3用は[https://github.com/NCMBMania/chrome-extension](https://github.com/NCMBMania/chrome-extension)になります。
+
 ## 機能拡張について
 
 管理画面での操作を便利にする機能を追加します。
